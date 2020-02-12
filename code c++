@@ -1,0 +1,40 @@
+#include<stdio.h>
+#include<string.h>
+#include<vector>
+
+using namespace std;
+
+vector<int> vWays;
+int  rangeA , rangeB;
+int ways = 0;
+int memo[501][150000];
+
+int countWay(int way,int total){
+ 
+ if(memo[way][total] != -1) return memo[way][total];
+  
+ if(way == ways && total >= rangeA && total <= rangeB) return 1;
+ 
+ if(way == ways) return 0;
+ 
+ return memo[way][total] = (countWay(way+1,total+vWays[way]) + countWay(way+1,total-vWays[way]))%1000000007;
+}
+
+int main(){
+ 
+ memset(memo,-1,sizeof(memo));
+ scanf("%d",&ways);
+ 
+ int a;
+ 
+ for(int i=0;i<ways;i++){
+  scanf("%d",&a);
+  vWays.push_back(a);
+ }
+ 
+ scanf("%d %d",&rangeA,&rangeB);
+ int res = countWay(0,0);
+ printf("%d\n",res);
+ 
+ return 0;
+}
